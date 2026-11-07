@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Laser Designs | Architectural Laser Fabrication in Toronto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121316; /* Obsidian Charcoal */
+            --panel-color: #1a1c23; 
+            --text-color: #E2E8F0; /* Precision Silver */
+            --accent-color: #E5A93C; /* Laser Amber */
+            --accent-hover: #c48e2d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background-color: rgba(18, 19, 22, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            border-bottom: 1px solid #2a2d35;
+            z-index: 1000;
+        }
+
+        nav img {
+            height: 50px;
+            width: 50px;
+            object-fit: contain;
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: #000;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* Hero Section */
+        header {
+            padding: 8rem 5% 6rem;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+        }
+
+        h1 span {
+            color: var(--accent-color);
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: #a0aec0;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Services Grid */
+        section {
+            padding: 5rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            font-weight: 600;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background-color: var(--panel-color);
+            padding: 2.5rem;
+            border-radius: 8px;
+            border-top: 4px solid var(--accent-color);
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .card p {
+            color: #a0aec0;
+            font-size: 0.95rem;
+        }
+
+        /* Materials Section */
+        .materials-banner {
+            background-color: var(--accent-color);
+            color: #000;
+            padding: 4rem 5%;
+            text-align: center;
+        }
+
+        .materials-banner h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .materials-banner p {
+            font-weight: 600;
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        /* Intake Form */
+        form {
+            background-color: var(--panel-color);
+            padding: 3rem;
+            border-radius: 8px;
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #a0aec0;
+        }
+
+        input, select, textarea {
+            background-color: var(--bg-color);
+            border: 1px solid #2a2d35;
+            color: var(--text-color);
+            padding: 0.75rem;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        input[type="file"] {
+            padding: 0.5rem;
+            background-color: var(--bg-color);
+            color: #a0aec0;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 5%;
+            border-top: 1px solid #2a2d35;
+            margin-top: 4rem;
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            form { grid-template-columns: 1fr; padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <!-- Ensure logo.png is in the exact same folder as this index.html file -->
+        <img src="logo.png" alt="Apex Laser Designs Logo">
+        <a href="#quote" class="btn">Get a Quote</a>
+    </nav>
+
+    <header>
+        <h1>Precision Architectural Laser Fabrication in <span>Toronto</span></h1>
+        <h2>Engineering dimensional corporate wall signs, boutique hospitality displays, and executive milestone awards for commercial B2B clients.</h2>
+        <a href="#quote" class="btn">Request Fabrication Specs</a>
+    </header>
+
+    <section id="services">
+        <h2 class="section-title">Commercial Capabilities</h2>
+        <div class="grid-3">
+            <div class="card">
+                <h3>Corporate Wall Signs</h3>
+                <p>Multi-layered, dimensional lobby and boardroom signage engineered with architectural standoff hardware for a premium executive aesthetic.</p>
+            </div>
+            <div class="card">
+                <h3>Hospitality Displays</h3>
+                <p>Bespoke table tents, reserve markers, and menu boards cut from durable, easy-to-clean matte cast acrylics and natural wood veneers.</p>
+            </div>
+            <div class="card">
+                <h3>Executive Milestone Awards</h3>
+                <p>Custom-crafted recognition pieces and deal toys designed to reflect your brand's prestige with pinpoint engraving accuracy.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="materials-banner">
+        <h3>Premium Substrates</h3>
+        <p>Working exclusively with pre-finished North American white oak, rich walnut veneers, matte cast acrylics, and industrial standoff hardware.</p>
+    </div>
+
+    <section id="quote">
+        <h2 class="section-title">Project Intake Form</h2>
+        <!-- Replace YOUR_ENDPOINT with your actual Formspree URL -->
+        <form action="https://formspree.io/f/YOUR_ENDPOINT" method="POST" enctype="multipart/form-data">
+            
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="company">Company Name</label>
+                <input type="text" id="company" name="company" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone">
+            </div>
+
+            <div class="form-group">
+                <label for="projectType">Project Type</label>
+                <select id="projectType" name="projectType" required>
+                    <option value="">Select...</option>
+                    <option value="Corporate Signage">Corporate Signage</option>
+                    <option value="Hospitality Display">Hospitality Display</option>
+                    <option value="Custom Award">Custom Award</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="material">Primary Material</label>
+                <select id="material" name="material" required>
+                    <option value="">Select...</option>
+                    <option value="White Oak">White Oak</option>
+                    <option value="Walnut">Walnut</option>
+                    <option value="Matte Black Acrylic">Matte Black Acrylic</option>
+                    <option value="Clear Acrylic">Clear Acrylic</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="width">Estimated Width (inches)</label>
+                <input type="number" id="width" name="width" step="0.1">
+            </div>
+
+            <div class="form-group">
+                <label for="height">Estimated Height (inches)</label>
+                <input type="number" id="height" name="height" step="0.1">
+            </div>
+
+            <div class="form-group full-width">
+                <label for="vectorFile">Upload Vector File (.svg, .ai, .eps, .pdf)</label>
+                <input type="file" id="vectorFile" name="vectorFile" accept=".svg, .ai, .eps, .pdf">
+            </div>
+
+            <div class="form-group full-width">
+                <label for="notes">Project Details & Notes</label>
+                <textarea id="notes" name="notes" placeholder="Include any specific mounting requirements, deadlines, or additional materials needed..."></textarea>
+            </div>
+
+            <button type="submit" class="btn full-width">Submit for Bill of Materials (BOM)</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Apex Laser Designs. All rights reserved. Servicing the Greater Toronto Area.</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+### 1. The SEO and Copywriter Agent
+Act as a Senior B2B Copywriter and Local SEO Expert. I am launching "Apex Laser Designs" (website: apexlaserstudio.ca), a Toronto-based Service Area Business specializing in architectural laser fabrication. 
+
+Write the complete copy for a high-converting, single-page landing page. The tone should be industrial, precise, and premium. Do not use generic fluff; focus on material capabilities, precision, and commercial application.
+
+Include the following sections:
+1. Hero Section: A strong H1 headline, a clarifying H2 subheadline, and a primary Call to Action (CTA) button. Target keywords: Toronto, architectural signage, custom laser fabrication.
+2. Services/Applications: 3 distinct columns for Corporate Wall Signs, Hospitality Displays (menus/table tents), and Executive Milestone Awards.
+3. Material Specs: A brief section detailing our primary substrates (pre-finished North American white oak, walnut veneers, matte cast acrylics, and architectural standoff hardware).
+4. Lead Capture / Footer: A clear, concise prompt driving users to submit their project dimensions and vector files for a quote.
+
+Format the output clearly so a web developer can easily map it to HTML sections.
+
+### 2. The Frontend Developer Agent
+Act as an Expert Frontend Web Developer. I need you to build a responsive, single-page HTML/CSS website for my B2B fabrication business, "Apex Laser Designs" (apexlaserstudio.ca). 
+
+Requirements:
+- Stack: Plain HTML5 and vanilla CSS (no heavy frameworks like React or Bootstrap). The code must be contained in a single index.html file with embedded CSS for easy deployment to Cloudflare Pages.
+- Aesthetics: Dark mode industrial. Background should be deep obsidian charcoal (#121316), text in precision silver (#E2E8F0), and accents/buttons in laser amber (#E5A93C). 
+- Typography: Use a modern, geometric sans-serif font (like Inter or Montserrat via Google Fonts).
+- Assets: Leave an <img src="logo.png" alt="Apex Laser Designs"> tag in the top navigation and footer for my square, high-contrast monochrome logo.
+- Layout: 
+  1. Sticky navigation bar with the logo and a "Get a Quote" button.
+  2. Hero section with a dark, textured background or placeholder image.
+  3. Services grid (3 columns on desktop, stacking on mobile).
+  4. Material Specifications section.
+  5. A contact/quote form section at the bottom.
+- Form Functionality: Build the form with the action attribute set to "https://formspree.io/f/YOUR_ENDPOINT" (I will replace this later) and method="POST".
+
+Use the provided copywriting text to populate the HTML elements. Ensure the design is highly professional, conversion-focused, and mobile-responsive.
+
+### 3. The Intake and Pricing Logic Agent
+Act as a Technical Web Developer and UX Designer. I have a one-page HTML website for my laser fabrication business. I need to replace the standard contact form with a structured, highly-converting B2B intake form. 
+
+This form must capture the exact parameters needed for my AI quoting pipeline to calculate a Bill of Materials (BOM) and job cost. 
+
+Write the HTML and CSS for a modern, clean form that includes:
+1. Standard fields: Name, Company Name, Email, Phone Number.
+2. Project Type: A dropdown menu (Corporate Signage, Hospitality Display, Custom Award, Other).
+3. Primary Material: A dropdown menu (White Oak, Walnut, Matte Black Acrylic, Clear Acrylic).
+4. Estimated Dimensions: Two number input fields for Width (inches) and Height (inches).
+5. Vector File Upload: An input type="file" field accepting .svg, .ai, .eps, and .pdf.
+6. Project Details: A text area for additional notes.
+7. Submit Button: Styled in laser amber (#E5A93C) reading "Request Fabrication Specs".
+
+Ensure the form inputs are styled cleanly with dark mode aesthetics (dark backgrounds, light text, amber focus borders). Provide the HTML snippet and the accompanying CSS.

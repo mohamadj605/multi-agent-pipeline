@@ -1,0 +1,15 @@
+﻿Subject: Project Received – Apex Laser Designs Fabrication Request
+
+Thank you for submitting your project specifications to Apex Laser Designs. 
+
+We have successfully received your dimensions and vector files. Our engineering team is currently reviewing your substrates and tolerances to calculate an accurate Bill of Materials (BOM) and production timeline.
+
+You will receive a formal fabrication quote and estimated lead time within the next 24 hours. If we require any adjustments to your vector files to ensure pinpoint laser accuracy, we will note them in our assessment. 
+
+We look forward to executing this build for you.
+
+Best regards,
+
+The Engineering Team
+Apex Laser Designs
+apexlaserstudio.ca

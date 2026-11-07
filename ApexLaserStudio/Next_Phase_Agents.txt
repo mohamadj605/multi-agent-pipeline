@@ -1,0 +1,26 @@
+Act as a Python Developer and Manufacturing Engineer. I own "Apex Laser Designs," a laser fabrication business. I need a local Python script that acts as a Bill of Materials (BOM) and Quoting Calculator.
+
+The script should prompt the user for the inputs received from my website's intake form:
+1. Material Type (White Oak, Walnut, Matte Black Acrylic, Clear Acrylic)
+2. Width and Height (in inches)
+
+It should then calculate:
+- Total square inches of material.
+- Material cost (assume Oak is $0.15/sq in, Walnut $0.18/sq in, Acrylic $0.10/sq in).
+- Estimated laser time (assume 2 minutes per square inch of bounding box at $2.00/minute).
+- A 40% B2B markup on the final total.
+
+Output a clean, formatted command-line summary of the BOM and the final quoted price to send to the client.
+
+Act as a Local SEO Expert specializing in Service Area Businesses. Write the complete profile copy for my Google Business Profile for "Apex Laser Designs" based in Toronto, Ontario.
+
+Provide the following:
+1. A 750-character Business Description focusing on architectural laser fabrication, corporate signage, and B2B executive awards. Use local keywords (Toronto, GTA, custom fabrication).
+2. A list of 5 primary "Services" to add to the profile, including a 2-sentence SEO-optimized description for each.
+3. Three ideas for the first Google Business "Update" posts to signal to the algorithm that the business is active and taking commercial clients.
+
+Act as a B2B Account Manager. Write a professional, concise email autoresponder for clients who submit a project intake form on the Apex Laser Designs website.
+
+The tone should be premium, industrial, and highly responsive. 
+
+Acknowledge that we have received their dimensions and vector files, state that our engineering team is reviewing the specs to calculate a Bill of Materials (BOM), and establish an expectation that they will receive a formal quote within 24 hours. Do not use generic corporate fluff.
