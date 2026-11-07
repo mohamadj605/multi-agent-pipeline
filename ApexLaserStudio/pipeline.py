@@ -1,71 +1,230 @@
 import os
-import anthropic
+import shutil
 
-# Initialize the client. This automatically looks for the ANTHROPIC_API_KEY environment variable.
-client = anthropic.Anthropic()
+def verify_logo():
+    print("[*] Checking for logo.png in the project directory...")
+    if os.path.exists("logo.png"):
+        print("[+] Success: logo.png found.")
+        return True
+    else:
+        print("[-] Warning: logo.png not found in the current folder. Please drop your logo file here so the website can render it.")
+        return False
 
-def run_agent(agent_role, task_prompt, output_filename):
-    print(f"[*] Spinning up {agent_role}...")
-    try:
-        response = client.messages.create(
-            model="claude-3-haiku-20240307",
-            max_tokens=2500,
-            system=f"You are a {agent_role}.",
-            messages=[
-                {"role": "user", "content": task_prompt}
-            ]
-        )
-        # Extract the text content from Claude's response
-        output = response.content[0].text
+def generate_web_assets():
+    print("[*] Generating updated HTML with integrated logo and BOM calculator...")
+    
+    html_content = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Laser Designs | Architectural Laser Fabrication in Toronto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121316;
+            --panel-color: #1a1c23;
+            --text-color: #E2E8F0;
+            --accent-color: #E5A93C;
+            --accent-hover: #c48e2d;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; }
+        nav {
+            position: sticky; top: 0; background-color: rgba(18, 19, 22, 0.95); backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; border-bottom: 1px solid #2a2d35; z-index: 1000;
+        }
+        .nav-logo-container { display: flex; align-items: center; gap: 1rem; }
+        nav img { height: 45px; width: 45px; object-fit: contain; border-radius: 4px; }
+        .brand-name { font-weight: 800; font-size: 1.1rem; letter-spacing: -0.02em; color: #fff; }
+        .btn {
+            background-color: var(--accent-color); color: #000; padding: 0.75rem 1.5rem; text-decoration: none;
+            font-weight: 600; border-radius: 4px; transition: background-color 0.2s ease; border: none; cursor: pointer; font-size: 1rem;
+        }
+        .btn:hover { background-color: var(--accent-hover); }
+        header { padding: 7rem 5% 5rem; text-align: center; max-width: 900px; margin: 0 auto; }
+        h1 { font-size: 3.2rem; font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -0.03em; }
+        h1 span { color: var(--accent-color); }
+        h2 { font-size: 1.2rem; font-weight: 400; color: #a0aec0; margin-bottom: 2.5rem; }
+        section { padding: 4rem 5%; max-width: 1200px; margin: 0 auto; }
+        .section-title { text-align: center; font-size: 2rem; margin-bottom: 3rem; font-weight: 600; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .card { background-color: var(--panel-color); padding: 2.5rem; border-radius: 8px; border-top: 4px solid var(--accent-color); }
+        .card h3 { font-size: 1.25rem; margin-bottom: 1rem; color: #fff; }
+        .card p { color: #a0aec0; font-size: 0.95rem; }
+        .materials-banner { background-color: var(--accent-color); color: #000; padding: 3rem 5%; text-align: center; }
+        .materials-banner h3 { font-size: 1.8rem; margin-bottom: 0.75rem; }
+        .materials-banner p { font-weight: 600; max-width: 800px; margin: 0 auto; font-size: 1.05rem; }
         
-        with open(output_filename, "w", encoding="utf-8") as file:
-            file.write(output)
-        print(f"[+] Success: {agent_role} output saved to {output_filename}\n")
-    except Exception as e:
-        print(f"[-] Error running {agent_role}: {e}\n")
+        form {
+            background-color: var(--panel-color); padding: 3rem; border-radius: 8px; max-width: 800px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .form-group { display: flex; flex-direction: column; }
+        .full-width { grid-column: 1 / -1; }
+        label { font-size: 0.9rem; margin-bottom: 0.5rem; font-weight: 600; color: #a0aec0; }
+        input, select, textarea {
+            background-color: var(--bg-color); border: 1px solid #2a2d35; color: var(--text-color);
+            padding: 0.75rem; border-radius: 4px; font-family: inherit; font-size: 1rem;
+        }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-color); }
+        textarea { resize: vertical; min-height: 100px; }
+        input[type="file"] { padding: 0.5rem; color: #a0aec0; }
+        
+        #bomOutput {
+            display: none; background: #0b0c0e; border: 1px solid var(--accent-color);
+            padding: 1.5rem; border-radius: 6px; margin-top: 1.5rem; font-family: monospace; color: #E2E8F0;
+        }
+        #bomOutput h4 { color: var(--accent-color); margin-bottom: 0.5rem; font-family: 'Inter', sans-serif; font-size: 1.1rem; }
+        
+        footer { text-align: center; padding: 3rem 5%; border-top: 1px solid #2a2d35; margin-top: 4rem; color: #a0aec0; font-size: 0.9rem; }
+        @media (max-width: 768px) { h1 { font-size: 2.3rem; } form { grid-template-columns: 1fr; padding: 1.5rem; } }
+    </style>
+</head>
+<body>
 
-# --- PROMPTS ---
+    <nav>
+        <div class="nav-logo-container">
+            <img src="logo.png" alt="Apex Laser Designs Logo">
+            <span class="brand-name">APEX LASER DESIGNS</span>
+        </div>
+        <a href="#quote" class="btn">Get a Quote</a>
+    </nav>
 
-bom_prompt = """
-Write a local Python script that acts as a Bill of Materials (BOM) and Quoting Calculator for "Apex Laser Designs".
-It must prompt the user for:
-1. Material Type (White Oak, Walnut, Matte Black Acrylic, Clear Acrylic)
-2. Width and Height (in inches)
+    <header>
+        <h1>Precision Architectural Laser Fabrication in <span>Toronto</span></h1>
+        <h2>Engineering dimensional corporate wall signs, boutique hospitality displays, and executive milestone awards for commercial B2B clients.</h2>
+        <a href="#quote" class="btn">Request Fabrication Specs</a>
+    </header>
 
-It should calculate:
-- Total square inches.
-- Material cost (Oak = $0.15/sq in, Walnut = $0.18/sq in, Acrylic = $0.10/sq in).
-- Estimated laser time (2 mins per sq inch at $2.00/minute).
-- A 40% B2B markup on the final total.
-Output a clean, formatted command-line summary. Provide ONLY the raw Python code, no markdown formatting or explanations.
+    <section id="services">
+        <h2 class="section-title">Commercial Capabilities</h2>
+        <div class="grid-3">
+            <div class="card">
+                <h3>Corporate Wall Signs</h3>
+                <p>Multi-layered, dimensional lobby and boardroom signage engineered with architectural standoff hardware for a premium executive aesthetic.</p>
+            </div>
+            <div class="card">
+                <h3>Hospitality Displays</h3>
+                <p>Bespoke table tents, reserve markers, and menu boards cut from durable, easy-to-clean matte cast acrylics and natural wood veneers.</p>
+            </div>
+            <div class="card">
+                <h3>Executive Milestone Awards</h3>
+                <p>Custom-crafted recognition pieces and deal toys designed to reflect your brand's prestige with pinpoint engraving accuracy.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="materials-banner">
+        <h3>Premium Substrates</h3>
+        <p>Working exclusively with pre-finished North American white oak, rich walnut veneers, matte cast acrylics, and industrial standoff hardware.</p>
+    </div>
+
+    <section id="quote">
+        <h2 class="section-title">Instant Estimator & Project Intake</h2>
+        <form id="quoteForm" onsubmit="calculateBOM(event)">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="company">Company Name</label>
+                <input type="text" id="company" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone">
+            </div>
+            <div class="form-group">
+                <label for="material">Primary Material</label>
+                <select id="material" required>
+                    <option value="">Select Material...</option>
+                    <option value="white_oak">White Oak ($0.15/sq in)</option>
+                    <option value="walnut">Walnut ($0.18/sq in)</option>
+                    <option value="acrylic_matte">Matte Black Acrylic ($0.10/sq in)</option>
+                    <option value="acrylic_clear">Clear Acrylic ($0.10/sq in)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="projectType">Project Type</label>
+                <select id="projectType" required>
+                    <option value="">Select Type...</option>
+                    <option value="Corporate Signage">Corporate Signage</option>
+                    <option value="Hospitality Display">Hospitality Display</option>
+                    <option value="Custom Award">Custom Award</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="width">Estimated Width (inches)</label>
+                <input type="number" id="width" step="0.1" required min="1">
+            </div>
+            <div class="form-group">
+                <label for="height">Estimated Height (inches)</label>
+                <input type="number" id="height" step="0.1" required min="1">
+            </div>
+            <div class="form-group full-width">
+                <label for="vectorFile">Upload Vector File (.svg, .ai, .eps, .pdf)</label>
+                <input type="file" id="vectorFile" accept=".svg, .ai, .eps, .pdf">
+            </div>
+            <div class="form-group full-width">
+                <label for="notes">Project Details & Mounting Notes</label>
+                <textarea id="notes" placeholder="Include standoff requirements, deadlines, or finishing notes..."></textarea>
+            </div>
+            <button type="submit" class="btn full-width">Calculate Instant BOM & Submit Quote</button>
+            <div id="bomOutput" class="full-width">
+                <h4>Calculated Bill of Materials (BOM)</h4>
+                <div id="bomResultsText"></div>
+            </div>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Apex Laser Designs. All rights reserved. Servicing the Greater Toronto Area.</p>
+    </footer>
+
+    <script>
+        function calculateBOM(event) {
+            event.preventDefault();
+            const mat = document.getElementById('material').value;
+            const w = parseFloat(document.getElementById('width').value);
+            const h = parseFloat(document.getElementById('height').value);
+            const rates = { white_oak: 0.15, walnut: 0.18, acrylic_matte: 0.10, acrylic_clear: 0.10 };
+            const names = { white_oak: "White Oak", walnut: "Walnut", acrylic_matte: "Matte Black Acrylic", acrylic_clear: "Clear Acrylic" };
+            const sqInches = w * h;
+            const matCost = sqInches * (rates[mat] || 0.10);
+            const laserMins = sqInches * 2;
+            const laserCost = laserMins * 2.00;
+            const subtotal = matCost + laserCost;
+            const markupTotal = subtotal * 1.40;
+
+            const outputBox = document.getElementById('bomOutput');
+            const resultsText = document.getElementById('bomResultsText');
+            outputBox.style.display = 'block';
+            resultsText.innerHTML = `
+                Material: ${names[mat]}<br>
+                Dimensions: ${w}" x ${h}" (${sqInches.toFixed(1)} sq in)<br>
+                Material Cost: $${matCost.toFixed(2)}<br>
+                Estimated Laser Time: ${laserMins.toFixed(0)} mins ($${laserCost.toFixed(2)})<br>
+                <strong>Estimated B2B Quote (40% Markup): $${markupTotal.toFixed(2)}</strong><br><br>
+                <em>Specs calculated. Form ready for transmission!</em>
+            `;
+        }
+    </script>
+</body>
+</html>
 """
-
-seo_prompt = """
-Write the complete profile copy for my Google Business Profile for "Apex Laser Designs" (a B2B architectural laser fabrication shop in Toronto).
-Provide:
-1. A 750-character Business Description focusing on corporate signage, custom fabrication, and B2B executive awards. Use local SEO keywords for the GTA.
-2. A list of 5 primary "Services" to add to the profile, including a 2-sentence SEO-optimized description for each.
-3. Three ideas for the first Google Business "Update" posts to signal to the algorithm that we take commercial clients.
-"""
-
-email_prompt = """
-Write a professional, concise email autoresponder for B2B clients who submit a project intake form on the Apex Laser Designs website.
-The tone must be premium, industrial, and highly responsive.
-Acknowledge receipt of their dimensions and vector files, state that our engineering team is reviewing the specs to calculate a Bill of Materials (BOM), and establish that they will receive a formal quote within 24 hours. No generic corporate fluff.
-"""
-
-# --- EXECUTION ---
+    
+    with open("index.html", "w", encoding="utf-8") as f:
+        f.write(html_content)
+    print("[+] Success: index.html generated with logo integration.")
 
 if __name__ == "__main__":
-    print("Initializing Apex Laser Designs Multi-Agent Pipeline via Claude...\n")
-    
-    # Agent 1: The Manufacturing Engineer (Writes the BOM Python script)
-    run_agent("Senior Python Developer and Manufacturing Engineer", bom_prompt, "bom_calculator.py")
-    
-    # Agent 2: The Local SEO Expert (Writes the Google Business Profile copy)
-    run_agent("Local SEO Expert for Service Area Businesses", seo_prompt, "Google_SEO_Profile.txt")
-    
-    # Agent 3: The B2B Account Manager (Writes the automated email response)
-    run_agent("B2B Account Manager", email_prompt, "Email_Autoresponder.txt")
-    
-    print("Pipeline execution complete. Have a good time with your friends.")
+    print("Initializing Apex Asset Pipeline...\n")
+    verify_logo()
+    generate_web_assets()
+    print("\nPipeline ready. Run 'git add --all' and 'git push' to deploy to Cloudflare.")
